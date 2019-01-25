@@ -86,6 +86,8 @@ fragment EventPreview_event on Event {
     #zipCode
 		#createdAt
     id
+    displayName
+    username
     isEmailConfirmed
     opinionsCount
     argumentsCount
@@ -99,11 +101,10 @@ fragment EventPreview_event on Event {
     }
   }
 }"""
-initial_request = initial_request.replace('\\n', '\\\\n')
 # initial_payload = """{\"query\":\"query EventPageQuery($cursor: String, $count: Int, $search: String, $theme: ID, $project: ID, $isFuture: Boolean) {\\n  ...EventPageHeader_query_a9h1O\\n  ...EventRefetch_query_a9h1O\\n}\\n\\nfragment EventPageHeader_query_a9h1O on Query {\\n  events(first: $count, after: $cursor, theme: $theme, project: $project, search: $search, isFuture: $isFuture) {\\n    totalCount\\n  }\\n}\\n\\nfragment EventRefetch_query_a9h1O on Query {\\n  ...EventListPaginated_query_a9h1O\\n  ...EventPageHeader_query_a9h1O\\n}\\n\\nfragment EventListPaginated_query_a9h1O on Query {\\n  events(first: $count, after: $cursor, theme: $theme, project: $project, search: $search, isFuture: $isFuture) {\\n    totalCount\\n    ...EventMap_events\\n    edges {\\n      node  {\\n        id\\n        ...EventPreview_event\\n        __typename\\n      }\\n      cursor\\n    }\\n    pageInfo {\\n      hasPreviousPage\\n      hasNextPage\\n      startCursor\\n      endCursor\\n    }\\n  }\\n}\\n\\nfragment EventMap_events on EventConnection {\\n  totalCount\\n  edges {\\n    node {\\n      id\\n      lat\\n      lng\\n      url\\n      address\\n      startAt\\n      endAt\\n      title\\n    }\\n  }\\n}\\n\\nfragment EventPreview_event on Event {\\n  id\\n  startAt\\n  endAt\\n  createdAt\\n  body\\n  link\\n  enabled\\n  comments {\\n    totalCount\\n  }\\n  title\\n  fullAddress\\n  city\\n  zipCode\\n  url\\n  \\n  themes {\\n    id\\n    title\\n    url\\n  }\\n  participants {\\n    totalCount\\n  }\\n  author {\\n    userType {\\n      id\\n      name\\n    }\\n    vip\\n    #zipCode\\n\\t\\t#createdAt\\n    id\\n    isEmailConfirmed\\n    opinionsCount\\n    argumentsCount\\n    projectsCount\\n    proposalsCount\\n    votes {\\n      totalCount\\n    }\\n    events {\\n      totalCount\\n    }\\n  }\\n}\\n\",\n \"variables\": {\"cursor\":null, \"count\": 100, \"theme\": null, \"project\": null, \"search\": null,\n                   \"isFuture\": true}}"""
 initial_payload = {'query': initial_request, "variables": {"cursor":None, "count": 100, "theme": None, "project": None, "search": None, "isFuture": True}}
 initial_payload = json.dumps(initial_payload)
-
+initial_payload = initial_payload.replace('\n', '\\n')
 paginated_request = """
 query EventListPaginatedQuery($cursor: String, $count: Int, $theme: ID, $project: ID, $search: String, $isFuture: Boolean) {
   ...EventListPaginated_query_a9h1O
@@ -177,9 +178,9 @@ fragment EventPreview_event on Event {
       name
     }
     vip
-    #zipCode
-		#createdAt
     id
+    displayName
+    username
     isEmailConfirmed
     opinionsCount
     argumentsCount
@@ -198,3 +199,4 @@ fragment EventPreview_event on Event {
 paginated_request = paginated_request.replace('\\n', '\\\\n')
 paginated_payload = {'query': paginated_request, "variables": {"cursor":"cursor_replace", "count": 100, "theme": None, "project": None, "search": None, "isFuture": True}}
 paginated_payload = json.dumps(paginated_payload)
+# paginated_payload = paginated_payload.replace('"', '\\"')

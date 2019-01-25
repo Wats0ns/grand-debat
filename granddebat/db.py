@@ -22,4 +22,7 @@ class DbWrapper:
         self.mongo = self.mongo[self.mongo_config['database']]
 
     def upsert_event(self, event):
+        if event['author']['userType']['id'] == '1':
+            event['author']['username'] = None
+            event['author']['displayName'] = None
         self.events.update({'id': event['id']}, {'$set': event}, upsert=True)
