@@ -28,7 +28,7 @@ def get_all():
 events = []
 header = ['id', 'fullAddress', 'address ','body', 'participantsCount', 'zipCode', 'city', 'lat', 'lng', 'title', 'startAt', 'endAt', 'createdAt',\
           'commentsCount', 'enabled', 'url', 'themes',
-          'authorTotalEventsCount', 'authorVIP', 'authorOpinionsCount', 'authorProjectsCount', 'authorArgumentsCount',\
+          'authorId', 'authorUsername', 'authorDisplayName', 'authorTotalEventsCount', 'authorVIP', 'authorOpinionsCount', 'authorProjectsCount', 'authorArgumentsCount',\
           'authorProposalsCount', 'authorTypeId', 'authorTypeName', 'authorTotalVotes' ]
 filename = 'granddebat.csv'
 with open(filename, "w") as csv_file:

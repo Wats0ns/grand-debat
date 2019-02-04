@@ -10,6 +10,10 @@ class Event:
         # Some users don't have a type...
         if not author['userType']:
             author['userType'] = {'id': None, 'name': None}
+        # Users crawled before username was fetched
+        if 'username' not in author:
+            author['username'] = None
+            author['displayName'] = None
         return [
             data['id'],
             data['fullAddress'],
@@ -28,6 +32,9 @@ class Event:
             data['enabled'],
             data['url'],
             data['themes'],
+            author['id'],
+            author['username'],
+            author['displayName'],
             author['events']['totalCount'],
             author['vip'],
             author['opinionsCount'],

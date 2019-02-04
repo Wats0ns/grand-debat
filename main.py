@@ -26,10 +26,12 @@ def make_request(payload):
     if 'errors' in info_results:
         print(info_results['errors'])
     print(info_results['data']['events']['totalCount'])
-    return info_events, info_results
+    return info_events, info_results, int(info_results['data']['events']['totalCount'])
 
 
 cursor = None
+i = 0
+events = []
 while True:
     if not cursor:
         payload = initial_payload
@@ -37,7 +39,7 @@ while True:
         payload = paginated_payload.replace('cursor_replace', cursor)
     # print(repr(payload))
     # break
-    events_results, results = make_request(payload)
+    events_results, results, count = make_request(payload)
     # print(events_results, results)
     print(results['data']['events']['pageInfo'])
     # break
@@ -49,16 +51,22 @@ while True:
             print(events_results)
             continue
         result = result['node']
-        print(result['title'])
+        #print(result['title'])
 
         result['commentCount'] = result['comments']['totalCount']
         del result['commentCount']
 
         result['participantsCount'] = result['participants']['totalCount']
         del result['participants']
-
-        db.upsert_event(result)
+        events.append(result)
+        if i % 10 == 0:
+            print('[{i}/{total}]'.format(i=i, total= count))
+            db.upsert_events(events)
+            events = []
+        i += 1
     if results['data']['events']['pageInfo']['hasNextPage']:
         cursor = results['data']['events']['pageInfo']['endCursor']
     else:
         break
+print('[{i}/{total}]'.format(i=i, total=count))
+db.upsert_events(events)
