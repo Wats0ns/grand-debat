@@ -1,0 +1,7 @@
+{
+    "host":host,
+    "username":"root",
+    "password":password,
+    "port":27017,
+    "database":"granddebat"
+}

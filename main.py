@@ -37,6 +37,7 @@ while True:
         payload = initial_payload
     else:
         payload = paginated_payload.replace('cursor_replace', cursor)
+        # print(payload)
     # print(repr(payload))
     # break
     events_results, results, count = make_request(payload)
@@ -66,6 +67,7 @@ while True:
         i += 1
     if results['data']['events']['pageInfo']['hasNextPage']:
         cursor = results['data']['events']['pageInfo']['endCursor']
+        print('::', cursor)
     else:
         break
 print('[{i}/{total}]'.format(i=i, total=count))
